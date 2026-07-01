@@ -7,6 +7,24 @@ exec : main_admin  => prep => gpo => siem
 
 
 
+========================== dl slack et openoffice
+
+
+avec le script  dans prep le dl
+
+
+aller dans gpmc.msc 
+
+ckiqye driut slack -> install obli  -> edit groupe polcy manger
+
+user config -> policier -> software settgins -> 
+software install
+
+
+clique droit   -> new -> package
+
+
+mette le chemin : \\domolia.local\SYSVOL\domolia.local\installers\Slack.msi
 
 
 
