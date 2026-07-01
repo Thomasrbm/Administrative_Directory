@@ -65,10 +65,10 @@ $cse = "[{00000000-0000-0000-0000-000000000000}{2EA1A81B-48E5-45E9-8BB7-A6E3AC17
 Set-ADObject -Identity $gpo.Path -Replace @{ gPCUserExtensionNames = $cse }
 
 # 5) Incrementer la version (partie User = 16 bits de poids fort) : AD + GPT.ini
-$obj = Get-ADObject -Identity $gpo.Path -Properties gPCVersionNumber
-$ver = [int]$obj.gPCVersionNumber
+$obj = Get-ADObject -Identity $gpo.Path -Properties versionNumber
+$ver = [int]$obj.versionNumber
 $new = ((($ver -shr 16) + 1) -shl 16) -bor ($ver -band 0xFFFF)
-Set-ADObject -Identity $gpo.Path -Replace @{ gPCVersionNumber = $new }
+Set-ADObject -Identity $gpo.Path -Replace @{ versionNumber = $new }
 $gptIni = "\\$Domain\SYSVOL\$Domain\Policies\$Guid\GPT.ini"
 (Get-Content $gptIni) -replace 'Version=\d+', "Version=$new" | Set-Content $gptIni
 Write-Host "Extension cliente enregistree + version -> $new." -ForegroundColor Green

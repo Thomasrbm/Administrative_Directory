@@ -179,10 +179,10 @@ function New-LogonScriptGpo($gpoName, $scriptName, $scriptBody, $targetOUs) {
     Set-ADObject -Identity $gpo.Path -Replace @{ gPCUserExtensionNames = $cse }
 
     # 4) Incremente la version User (16 bits de poids fort) : AD + GPT.ini
-    $obj = Get-ADObject -Identity $gpo.Path -Properties gPCVersionNumber
-    $ver = [int]$obj.gPCVersionNumber
+    $obj = Get-ADObject -Identity $gpo.Path -Properties versionNumber
+    $ver = [int]$obj.versionNumber
     $new = ((($ver -shr 16) + 1) -shl 16) -bor ($ver -band 0xFFFF)
-    Set-ADObject -Identity $gpo.Path -Replace @{ gPCVersionNumber = $new }
+    Set-ADObject -Identity $gpo.Path -Replace @{ versionNumber = $new }
     $gptIni = "\\$dom\SYSVOL\$dom\Policies\$guid\GPT.ini"
     (Get-Content $gptIni) -replace 'Version=\d+', "Version=$new" | Set-Content $gptIni
 
