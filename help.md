@@ -80,6 +80,9 @@ tout ce qui touche aux comptes machines :
 
 
 
+chaque pc qui rejoint un domain cree automatique une compte machine
+mdp aleatoire identifie la machine elle meme 
+
 
 2. Distribution Group Management Activity
 
@@ -113,7 +116,7 @@ meme chose pour group user avec droits
 
 
 
-pour les comptes user ()
+pour les comptes user
 
 
 création, suppression, activation/désactivation, changement ou réinitialisation de mot de passe, déverrouillage, modification des propriétés
@@ -129,7 +132,9 @@ création, suppression, activation/désactivation, changement ou réinitialisati
 acces aux objet AD : 
 
 
+objet = entree de la db AD 
 
+en gros c est lacces a un objet precis la db 
 
 
 

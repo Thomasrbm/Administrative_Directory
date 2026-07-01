@@ -21,6 +21,18 @@ $OU_Administration = "OU=Administration,$DomainDN"
 # Ordre : du moins privilegie au plus privilegie
 $Groups = @("Worker", "Direction", "Secretary", "Administrator")
 
+# --- Utilisateurs de TEST (pour demontrer GPO + permissions) ---
+# 1 user par groupe, place dans la bonne OU et ajoute a son groupe.
+# 'OpenOffice = $true' => ajoute aussi au groupe OpenOfficeUsers (demo du
+# deploiement "a la demande"). Mot de passe commun = convention du lab.
+$TestUserPassword = "TotalyN0tSecure"
+$TestUsers = @(
+    @{ Name = "worker1";    OU = $OU_Workspace;      Group = "Worker";        OpenOffice = $true  }
+    @{ Name = "direction1"; OU = $OU_Workspace;      Group = "Direction";     OpenOffice = $false }
+    @{ Name = "secretary1"; OU = $OU_Workspace;      Group = "Secretary";     OpenOffice = $false }
+    @{ Name = "admin1";     OU = $OU_Administration; Group = "Administrator"; OpenOffice = $false }
+)
+
 # --- Disques + dossiers demandes (III.1) ---
 # Chaque dossier est partage en SMB (necessaire pour l'acces reseau + drive maps).
 $Folders = @(
