@@ -76,3 +76,59 @@ dans security filtering on voit :
 
 
 ======== Desktop
+
+
+  \\domolia.local\SYSVOL\domolia.local\
+
+
+  dans les gpo =>  dans settings 
+
+  ==> en bas dans user config on voit le chemin
+
+
+
+
+=======   LES FICHIER   D:  ET    E:
+
+
+worker : peut creer mais pas nommer (car nommer donne droit delete)
+peut modif que Workplane et y cree file etc
+
+
+direction : bug sujet impossible doit pas avoir acces a D:MANAGEMENT
+mais pouvoir le modifier, ducoup on donne acces
+
+
+secretary : pas acces a workplan
+
+Admin : peut tout faire aussi
+
+
+
+
+
+
+
+
+==================================== NETWORK EVENT LOGING
+
+
+auditpol /get /category:*
+donne la politique d audit = la ou on ecrit dans le journal de securite si y a un event
+
+
+
+le journal  de securite :  eventvwr.msc
+ 
+
+ windows log -> security (mpntrera pas le user reel mais le pc)
+
+
+
+
+
+
+==================================== looging script 
+
+
+juste exec les scripts
