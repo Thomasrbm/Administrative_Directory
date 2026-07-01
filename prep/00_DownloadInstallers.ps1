@@ -51,6 +51,10 @@ foreach ($d in $downloads) {
     }
 }
 
+# --- Patch du MSI LibreOffice (sinon la GPO Software Installation le refuse) ---
+Write-Host "`nPatch du MSI OpenOffice pour la GPO..." -ForegroundColor Cyan
+& "$PSScriptRoot\Fix-OpenOfficeMsi.ps1"
+
 # --- VERIFICATION ---
 Write-Host "`n[VERIFICATION] Contenu de installers :" -ForegroundColor Cyan
 Get-ChildItem $installers -ErrorAction SilentlyContinue |

@@ -15,7 +15,7 @@ avec le script  dans prep le dl
 
 aller dans gpmc.msc 
 
-ckiqye driut slack -> install obli  -> edit groupe polcy manger
+clique droit slack -> edit
 
 user config -> policier -> software settgins -> 
 software install
@@ -25,6 +25,16 @@ clique droit   -> new -> package
 
 
 mette le chemin : \\domolia.local\SYSVOL\domolia.local\installers\Slack.msi
+
+
+
+
+Assigned :  app pousse auto a l user
+
+(published = proposed)
+
+(advanced = ouvre direct la fenetre detaille)
+
 
 
 
