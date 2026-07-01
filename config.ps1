@@ -25,7 +25,7 @@ $Groups = @("Worker", "Direction", "Secretary", "Administrator")
 # 1 user par groupe, place dans la bonne OU et ajoute a son groupe.
 # 'OpenOffice = $true' => ajoute aussi au groupe OpenOfficeUsers (demo du
 # deploiement "a la demande"). Mot de passe commun = convention du lab.
-$TestUserPassword = "TotalyN0tSecure"
+$TestUserPassword = "Bonjour123**"
 $TestUsers = @(
     @{ Name = "worker1";    OU = $OU_Workspace;      Group = "Worker";        OpenOffice = $true  }
     @{ Name = "direction1"; OU = $OU_Workspace;      Group = "Direction";     OpenOffice = $false }

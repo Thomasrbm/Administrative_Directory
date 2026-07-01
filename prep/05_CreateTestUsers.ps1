@@ -17,7 +17,10 @@ foreach ($u in $TestUsers) {
 
     # 1) Creer l'utilisateur (si absent)
     if (Get-ADUser -Filter "SamAccountName -eq '$($u.Name)'" -ErrorAction SilentlyContinue) {
-        Write-Host "User '$($u.Name)' existe deja." -ForegroundColor Yellow
+        # Deja present : on reapplique mot de passe + options (idempotent)
+        Set-ADAccountPassword -Identity $u.Name -Reset -NewPassword $sec
+        Set-ADUser -Identity $u.Name -ChangePasswordAtLogon $false -PasswordNeverExpires $true -Enabled $true
+        Write-Host "User '$($u.Name)' existe deja - mot de passe reinitialise." -ForegroundColor Yellow
     } else {
         New-ADUser -Name $u.Name -SamAccountName $u.Name `
             -UserPrincipalName "$($u.Name)@$Domain" `
