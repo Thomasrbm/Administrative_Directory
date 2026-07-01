@@ -126,6 +126,48 @@ le journal  de securite :  eventvwr.msc
 
 
 
+dans .\listUserEvents
+
+
+• Computer Account Management Activity
+
+machine reelle
+
+
+• Distribution Group Management Activity
+
+
+group de msg
+
+
+• Security Group Management Activity
+
+groupe de seu
+
+
+
+
+
+• User Account Management Activity
+
+compte worker1 etc
+
+
+
+
+
+• Directory Service Access Activity
+
+
+si on accede a un dir ou pas.
+
+
+
+• Logoff Activitu
+
+• Logon Activity
+
+
 
 
 ==================================== looging script 
