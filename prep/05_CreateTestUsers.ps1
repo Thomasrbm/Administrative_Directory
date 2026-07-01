@@ -46,9 +46,10 @@ foreach ($u in $TestUsers) {
 
 # --- VERIFICATION : liste les users de test et leurs groupes ---
 Write-Host "`n[VERIFICATION] Utilisateurs de test :" -ForegroundColor Cyan
-foreach ($u in $TestUsers) {
+$report = foreach ($u in $TestUsers) {
     $groups = (Get-ADPrincipalGroupMembership $u.Name | Select-Object -ExpandProperty Name) -join ", "
     [pscustomobject]@{ User = $u.Name; OU = ($u.OU -split ',')[0]; Groupes = $groups }
-} | Format-Table -AutoSize -Wrap
+}
+$report | Format-Table -AutoSize -Wrap
 
 Write-Host "Mot de passe commun : $TestUserPassword" -ForegroundColor Magenta
