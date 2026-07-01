@@ -1,0 +1,295 @@
+
+
+Refaire tout ActiveDiscovery  sur des vm fresh  mais avec des scripts powershell
+
+
+
+
+
+
+Set-DnsClientServerAddress -InterfaceAlias "Ethernet" -ServerAddresses 168.63.129.16
+
+
+
+
+----------------------------------
+
+
+
+
+recreer vm sur AZURE 
+
+
+
+create a ressource 
+vm 
+
+
+
+skip 
+
+STANDARD DISK
+
+
+METTRE SUR MEME NETWORK
+
+
+mettre netowrk en statisu dans netwwrok config
+
+
+
+ensutie configureation 
+
+DNS SERVER  -> custom
+
+
+
+
+
+check heure get-date (kerberos refuse > 5 min ecart)
+
+
+----------------------------------
+
+
+0/ Recreer les 4 vms
+
+
+
+1/ faire un snapshot de l etat d origine
+
+
+copier les scirpts depuis github 
+
+
+
+
+telecharger le repo : 
+
+
+SERVEUR : 
+
+Invoke-WebRequest -Uri "https://github.com/Thomasrbm/Automatic_Directory/archive/main.zip" -OutFile "C:\scripts.zip"
+Expand-Archive -Path "C:\scripts.zip" -DestinationPath "C:\" -Force
+
+
+
+
+
+
+
+aller dans C:
+
+
+
+
+
+
+
+USER : 
+
+
+exec le terminal en admin
+
+Set-ExecutionPolicy Unrestricted -Force
+Invoke-WebRequest -Uri "https://github.com/Thomasrbm/Automatic_Directory/archive/main.zip" -OutFile "$env:USERPROFILE\scripts.zip"
+Expand-Archive -Path "$env:USERPROFILE\scripts.zip" -DestinationPath "$env:USERPROFILE\" -Force
+
+
+cd "$env:USERPROFILE\Automatic_Directory-main"
+
+
+
+
+2 / executer le main script 
+
+
+Set-ExecutionPolicy Unrestricted -Force  = autoriser les scripts
+
+
+
+
+
+
+lancer le main   pui le main post (apres avoir promu en DC ca restart)
+
+
+
+
+
+
+
+
+
+---------------- ORDRE EXEC 
+
+
+
+SRV-ADMIN (en premier) :
+
+.\NetworkConfig_SrvAdmin.ps1 → reboot
+.\main_admin.ps1 → reboot
+.\main_admin_post.ps1
+
+SRV-WORKSHOP (ensuite) :
+
+.\NetworkConfig_SrvWorkshop.ps1 → reboot
+.\main_workshop.ps1 → reboot
+.\main_workshop_post.ps1
+
+Clients (en dernier, une fois les serveurs prêts) :
+
+.\NetworkConfig_ClientAdmin.ps1 → reboot
+
+
+mdp par defaut : TotalyN0tSecure
+
+.\JoinDomain_Client.ps1 → reboot
+
+
+
+
+
+
+
+scripts non auto mais de maintenance : 
+
+
+  ┌────────────────────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │     Catégorie      │                                                             Scripts                                                              │
+  ├────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Groupes            │ CreateGroup, CreateDistributionGroup, ModifyGroup, ImportGroup, ReadGroupInformation, ReadEveryGroupInformation, ListUserInGroup │
+  ├────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Membres            │ AddUserToGroup, RemoveUserToGroup                                                                                                │
+  ├────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Utilisateurs       │ EditUserAttribute, ReadUserInformation, ResetUserPassword                                                                        │
+  ├────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Sauvegarde/restore │ SaveDataBase, LoadDataBase, ReadDataBaseInformation                                                                              │
+  └────────────────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+
+
+
+-------------- les popups 
+
+
+
+
+[Microsoft.VisualBasic.Interaction]::InputBox()  => ouvre popup windows
+
+
+sauf pour les mdps : Read-Host -AsSecureString
+
+
+
+
+
+
+
+
+---------------  PowerShell ISE
+
+
+
+
+
+
+
+-------------------- etapes
+
+
+
+les 2 mains + mains post
+
+addusetogenericfiles
+
+
+depuis admin : setmdp.ps1
+
+
+se co avec user.admin et mdp = TotalyN0tSecure
+
+
+
+mstc 
+
+localhost
+
+
+
+
+--------------  USE FILES ------------
+
+
+Aucun parametre en ligne de commande : on lance .\Script.ps1 et on repond aux popups.
+La preuve s'affiche toute seule a la fin de chaque script. Lancer en admin sur SRV-ADMIN.
+
+Installe AD DS            : ADPackageInstallor.ps1
+Cree la foret + 1er DC    : main_admin.ps1 -> reboot -> main_admin_post.ps1
+Rejoint la foret (2e DC)  : main_workshop.ps1 -> reboot -> main_workshop_post.ps1
+
+Sauvegarde la base (CSV)  : SaveDataBase.ps1
+Recharge la base (CSV)    : LoadDataBase.ps1
+Infos de tous les users   : ReadDataBaseInformation.ps1
+
+Cree un user              : UserCreation.ps1
+Infos d'un user           : ReadUserInformation.ps1
+Modifie un attribut user  : EditUserAttribute.ps1
+Reset mot de passe user   : ResetUserPassword.ps1
+
+Cree un groupe            : CreateGroup.ps1
+Cree groupe distribution  : CreateDistributionGroup.ps1
+Modifie un groupe         : ModifyGroup.ps1
+Ajoute user a un groupe   : AddUserToGroup.ps1
+Retire user d'un groupe   : RemoveUserToGroup.ps1
+Liste membres d'un groupe : ListUserInGroup.ps1
+Importe membres grp->grp  : ImportGroup.ps1
+Infos d'un groupe         : ReadGroupInformation.ps1
+Infos de tous les groupes : ReadEveryGroupInformation.ps1
+
+Acces GenericFiles a user : AddUserToGenericFiles.ps1 (sur SRV-ADMIN, apres creation de user.worker)
+Prepare un user au RDP    : FixRdpUser.ps1
+Joint le client au domaine: JoinDomain_Client.ps1
+Test auto de tous les ops : tester.ps1 (sur un DC, hors main)
+Reset complet (pre-AD)    : reset.ps1 (relancer apres chaque reboot ; worker AVANT admin)
+
+
+
+
+
+
+
+
+
+
+
+------------------- EVAL -------------------
+
+
+nltest /sc_verify:domolia.local
+
+
+
+les 2 mains
+
+AddUserToGenericFiles  depuis admin
+
++ tester 
+
+
+
+TotalyN0tSecure  = mdp
+
+
+
+
+
+
+Distribution groupe  ====> ne gere pas de permission, juste pour envoyer mails/messages groupe 
+pas d acces a autre chose pas de droit d accesses etc. 
+
+
+
+
+
