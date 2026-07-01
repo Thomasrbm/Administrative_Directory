@@ -19,13 +19,14 @@ $installers = "\\$Domain\SYSVOL\$Domain\installers"
 New-Item -ItemType Directory -Path $installers -Force | Out-Null
 Write-Host "Dossier prepare : $installers" -ForegroundColor Cyan
 
-# --- URLs de telechargement ---
-# Slack : lien "machine-wide MSI" officiel (suit une redirection vers le .msi).
-# LibreOffice : URL VERSIONNEE -> si le telechargement echoue (404), mets a jour
-#   $LoVersion avec une version existante (voir download.documentfoundation.org).
-$LoVersion = "24.8.4"
+# --- URLs de telechargement (versions VERSIONNEES) ---
+# Si un telechargement echoue en 404, la version n'existe plus : mets a jour
+#   $SlackVersion (voir slack.com/release-notes/windows)
+#   $LoVersion    (voir download.documentfoundation.org/libreoffice/stable/)
+$SlackVersion = "4.48.102"
+$LoVersion    = "26.2.4"
 $downloads = @(
-    @{ Name = "Slack.msi";      Url = "https://slack.com/ssb/download-win64-msi" }
+    @{ Name = "Slack.msi";      Url = "https://downloads.slack-edge.com/desktop-releases/windows/x64/$SlackVersion/slack-standalone-$SlackVersion.0.msi" }
     @{ Name = "OpenOffice.msi"; Url = "https://download.documentfoundation.org/libreoffice/stable/$LoVersion/win/x86_64/LibreOffice_${LoVersion}_Win_x86-64.msi" }
 )
 
