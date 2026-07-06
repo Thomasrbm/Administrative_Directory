@@ -1,25 +1,20 @@
-# Définition des types de logs SIEM disponibles
-$Options = @(
-    [pscustomobject]@{ Categorie = "1. Accès aux Fichiers (Bonus 2.1)"; Subcategory = "File System" }
-    [pscustomobject]@{ Categorie = "2. Création de Processus (Bonus 2.2)"; Subcategory = "Process Creation" }
-    [pscustomobject]@{ Categorie = "3. Modification de Politique (Bonus 2.3)"; Subcategory = "Audit Policy Change" }
-)
+# Inclusion du script Helper (Le point indique qu'on charge les fonctions dans ce script)
+. "$PSScriptRoot\Bonus-Helper.ps1"
 
-# Affiche la fenêtre de sélection Windows (GUI)
-$Selection = $Options | Out-GridView -Title "SIEM : Sélectionnez les logs à ACTIVER (Ctrl+Clic pour plusieurs)" -PassThru
+# Appel de la fonction graphique personnalisée
+$Selection = Show-SiemCheckboxMenu -Title "SIEM - Activation" -LabelText "Cochez les logs à ACTIVER :" -ButtonText "Activer"
 
-if ($Selection) {
-    $ActivatedList = ""
-    foreach ($Item in $Selection) {
-        # Activation via auditpol
-        auditpol /set /subcategory:$($Item.Subcategory) /success:enable /failure:enable | Out-Null
-        $ActivatedList += "- $($Item.Categorie)`n"
-    }
+if ($null -ne $Selection) {
+    $List = ""
     
-    # Pop-up de confirmation
-    $wshell = New-Object -ComObject Wscript.Shell
-    $wshell.Popup("Les logs suivants ont été ACTIVÉS :`n`n$ActivatedList", 0, "SIEM - Activation", 64)
+    # Utilisation de la fonction Set-SiemAudit
+    if ($Selection.FileSys) { Set-SiemAudit "File System" "enable"; $List += "- Accès Fichiers`n" }
+    if ($Selection.Process) { Set-SiemAudit "Process Creation" "enable"; $List += "- Processus`n" }
+    if ($Selection.Policy)  { Set-SiemAudit "Audit Policy Change" "enable"; $List += "- Politiques`n" }
+    
+    # Utilisation de la fonction Show-Popup
+    if ($List -ne "") { Show-Popup "Les logs suivants ont été ACTIVÉS :`n`n$List" "Succès" 64 }
+    else { Show-Popup "Aucune case n'a été cochée." "Information" 64 }
 } else {
-    $wshell = New-Object -ComObject Wscript.Shell
-    $wshell.Popup("Opération annulée. Aucun log n'a été activé.", 0, "SIEM - Annulation", 48)
+    Show-Popup "Opération annulée par l'utilisateur." "Annulé" 48
 }
