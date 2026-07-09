@@ -1,6 +1,42 @@
 
 
 
+
+OU : 
+
+
+
+
+
+dsa.msc
+
+
+sinon, 
+
+
+Server Manager > Tools > usres >
+
+
+
+
+
+
+prouver : 
+
+
+Get-ADOrganizationalUnit -Filter * | Format-Table Name, DistinguishedName
+
+
+
+======================
+
+
+
+lister les groups 
+
+
+=====================
+
 GPO : 
 
 
@@ -12,6 +48,14 @@ gpresult /r
 
 
 gpmc.msc
+
+
+
+
+
+montrer dans le \\domolia.local  le fond ecran + les .msi
+
+
 
 
 
