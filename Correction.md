@@ -48,10 +48,14 @@ Get-ADGroup -Filter "Name -eq 'Worker' -or Name -eq 'Direction' -or Name -eq 'Se
 users : 
 
 
-"Worker", "Direction", "Secretary", "Administrator" | ForEach-Object {
-    Write-Host "`n--- Membres du groupe : $_ ---" -ForegroundColor Cyan
-    Get-ADGroupMember -Identity $_ | Format-Table Name, SamAccountName
-}
+dsa.msc
+
+
+
+Get-ADGroupeMember Secretary
+Get-ADGroupeMember Direction
+Get-ADGroupeMember Worker
+Get-ADGroupeMember Admistrator
 
 
 
@@ -60,10 +64,12 @@ users :
 GPO : 
 
 
-gpresult /h report.html
 
 
-gpresult /r
+gpresult /s PC-WORKER-01 /user domolia\worker1 /r
+gpresult /s PC-WORKER-01 /user domolia\admin1 /r
+gpresult /s PC-WORKER-01 /user domolia\secretary1 /r
+gpresult /s PC-WORKER-01 /user domolia\direction1 /r
 
 
 
