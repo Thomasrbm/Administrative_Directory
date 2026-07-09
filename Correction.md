@@ -38,6 +38,10 @@ lister les groups
 
 Get-ADGroup -Filter * | Format-Table Name, GroupCategory, DistinguishedName
 
+
+Get-ADGroup -Filter "Name -eq 'Worker' -or Name -eq 'Direction' -or Name -eq 'Secretary' -or Name -eq 'Administrator'" | Format-Table Name, DistinguishedName
+
+
 =====================
 
 GPO : 
