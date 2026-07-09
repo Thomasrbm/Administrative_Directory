@@ -35,6 +35,9 @@ Get-ADOrganizationalUnit -Filter * | Format-Table Name, DistinguishedName
 lister les groups 
 
 
+
+Get-ADGroup -Filter * | Format-Table Name, GroupCategory, DistinguishedName
+
 =====================
 
 GPO : 
